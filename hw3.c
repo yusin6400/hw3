@@ -85,7 +85,7 @@ int main(int argc, char **argv)
             printf("\n");
 
             eth_header = (ether_header *)packet;
-            unsigned short type = ntohs(eth_header->ether_type); //ntohs()將16位網路字符順序轉換為主機字符順序
+            unsigned short type = ntohs(eth_header->ether_type); // ntohs()將16位網路字符順序轉換為主機字符順序
             ip *ip_header = (ip *)(packet + ETHER_HDR_LEN);
         
             // 3. 如果那個封包是IP封包，則再多顯示來源IP位址與目的地IP位址
