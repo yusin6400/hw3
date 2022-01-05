@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 
         char errbuff[PCAP_ERRBUF_SIZE]= "\0";
         pcap_t *handler= pcap_open_offline(filename, errbuff);
-        if (NULL==handler)
+        if(NULL==handler)
         {
             printf("%s can't be open\n", filename);
             exit(1);
