@@ -24,14 +24,14 @@ int main(int argc, char **argv)
 {
     if(argc==2)
     {
-        char *filename;
-        filename=strdup(argv[argc-1]);
+        char *file;
+        file=strdup(argv[argc-1]);
 
         char errbuff[PCAP_ERRBUF_SIZE]= "\0";
-        pcap_t *handler= pcap_open_offline(filename, errbuff);
+        pcap_t *handler= pcap_open_offline(file, errbuff);
         if(NULL==handler)
         {
-            printf("%s can't be open\n", filename);
+            printf("%s can't be open\n", file);
             exit(1);
         }
 
@@ -44,11 +44,11 @@ int main(int argc, char **argv)
             udphdr *udp_header;
             time_t time_t_tmp;
 
-            u_char *packet;
-            int res=pcap_next_ex(handler, &packet_header, (const u_char **)&packet);
-            if(res==0) continue;
-            else if(res==-2) break;
-            else if(res==-1)
+            u_char *packet;								// https://www.cnblogs.com/almn/p/11301353.html
+            int res=pcap_next_ex(handler, &packet_header, (const u_char **)&packet); // 從interface或離線紀錄文件獲取一個報文
+            if(res==0) continue;	// 超時
+            else if(res==-2) break;	// 讀取到離線文件的最後一個報文
+            else if(res==-1)		// 發生錯誤
             {
                 printf("pcap_next_ex ERROR\n");
                 exit(1);
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
             printf("\n");
 
             eth_header = (ether_header *)packet;
-            unsigned short type = ntohs(eth_header->ether_type); // ntohs()將16位網路字符順序轉換為主機字符順序
+            unsigned short type = ntohs(eth_header->ether_type); //ntohs()將16位網路字符順序轉換為主機字符順序
             ip *ip_header = (ip *)(packet + ETHER_HDR_LEN);
         
             // 3. 如果那個封包是IP封包，則再多顯示來源IP位址與目的地IP位址
