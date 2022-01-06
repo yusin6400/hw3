@@ -44,8 +44,8 @@ int main(int argc, char **argv)
             udphdr *udp_header;
             time_t time_t_tmp;
 
-            u_char *packet;								// https://www.cnblogs.com/almn/p/11301353.html
-            int res=pcap_next_ex(handler, &packet_header, (const u_char **)&packet); // 從interface或離線紀錄文件獲取一個報文
+            u_char *packet;								                                // https://www.cnblogs.com/almn/p/11301353.html
+            int res=pcap_next_ex(handler, &packet_header, (const u_char **)&packet);    // 從interface或離線紀錄文件獲取一個報文
             if(res==0) continue;	// 超時
             else if(res==-2) break;	// 讀取到離線文件的最後一個報文
             else if(res==-1)		// 發生錯誤
